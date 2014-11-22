@@ -2,6 +2,7 @@ package br.unisul.sau.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import br.unisul.sau.bean.Chamado;
 import br.unisul.sau.bean.tenum.Problema;
@@ -60,14 +61,15 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 	}
 
 	@Override
-	public boolean add(Chamado bean) {
+	public long add(Chamado bean) {
 		PreparedStatement ps = null;
+		long retorno = -1L;
 		
 		try {
 			String sql = "insert intp sau.en_chamado(seq_id_chamado, seq_id_empresa, seq_id_tecnico, nome_cliente, "+
 					"status, problema, tipo_problema, info_problema, software, versao_software, data_chamado, duracao) " +
 					"values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-			ps = Conexao.getInstance().prepareStatement(sql);
+			ps = Conexao.getInstance().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setLong(1, bean.getSeq_id_empresa());
 			ps.setLong(2, bean.getSeq_id_tecnico());
 			ps.setString(3, bean.getNome_cliente());
@@ -79,7 +81,13 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 			ps.setString(9, bean.getVersao_software());
 			ps.setDate(10, bean.getData());
 			ps.setDouble(11, bean.getDuracao());
-			return ps.execute();
+			boolean inserido = ps.execute();
+			if (inserido) {
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+				while(generatedKeys.next()) {
+					retorno = generatedKeys.getLong(1);
+				}
+			}
 		} catch (Exception e) {
 			System.err.println(e);
 		} finally {
@@ -92,7 +100,7 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 			}
 		}
 
-		return false;
+		return retorno;
 	}
 
 	@Override

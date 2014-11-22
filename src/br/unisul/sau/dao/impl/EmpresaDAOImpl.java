@@ -47,15 +47,22 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 	}
 
 	@Override
-	public boolean add(Empresa bean) {
+	public long add(Empresa bean) {
 		PreparedStatement ps = null;
+		long retorno = -1L;
 		
 		try {
 			String sql = "insert into sau.en_empresa(seq_id_empresa, nome, numero_contrato)values(DEFAULT, ?, ?)";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setString(1, bean.getNome());
 			ps.setInt(2, bean.getContrato());
-			return ps.execute();
+			boolean inserido = ps.execute();
+			if (inserido) {
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+				while(generatedKeys.next()) {
+					retorno = generatedKeys.getLong(1);
+				}
+			}
 		} catch (Exception e) {
 			System.err.println(e);
 		} finally {
@@ -68,7 +75,7 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 			}
 		}
 
-		return false;
+		return retorno;
 	}
 
 	@Override

@@ -19,5 +19,9 @@ public class FactoryDAOImpl implements FactoryDAO {
 	public TecnicoDAOImpl getTecnicoDAOImpl() {
 		return new TecnicoDAOImpl();
 	}
+	
+	public ChamadoAcompanhamentoDAOImpl getChamadoAcompanhamentoDAOImpl() {
+		return new ChamadoAcompanhamentoDAOImpl();
+	}
 
 }

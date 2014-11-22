@@ -47,8 +47,9 @@ public class TecnicoDAOImpl implements GenericDAO<Tecnico>, LoginDAO {
 	}
 
 	@Override
-	public boolean add(Tecnico bean) {
+	public long add(Tecnico bean) {
 		PreparedStatement ps = null;
+		long retorno = -1L;
 		
 		try {
 			String sql = "insert into sau.en_tecnico(seq_id_tecnico, nome, login, pwd) values (DEFAULT, ?, ?, ?);";
@@ -56,7 +57,13 @@ public class TecnicoDAOImpl implements GenericDAO<Tecnico>, LoginDAO {
 			ps.setString(1, bean.getNome());
 			ps.setString(2, bean.getUser());
 			ps.setString(3, bean.getPwd());
-			return ps.execute();
+			boolean inserido = ps.execute();
+			if (inserido) {
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+				while(generatedKeys.next()) {
+					retorno = generatedKeys.getLong(1);
+				}
+			}
 		} catch (Exception e) {
 			System.err.println(e);
 		} finally {
@@ -68,8 +75,8 @@ public class TecnicoDAOImpl implements GenericDAO<Tecnico>, LoginDAO {
 				System.err.println(e);
 			}
 		}
-
-		return false;
+		
+		return retorno;
 	}
 
 	@Override

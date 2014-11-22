@@ -8,6 +8,12 @@ public class ChamadoAcompanhamento {
 	public ChamadoAcompanhamento() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public ChamadoAcompanhamento(Long seq_id_chamado, Long seq_id_acompanhamento) {
+		super();
+		this.seq_id_chamado = seq_id_chamado;
+		this.seq_id_acompanhamento = seq_id_acompanhamento;
+	}
 
 	public Long getSeq_id_chamado() {
 		return seq_id_chamado;

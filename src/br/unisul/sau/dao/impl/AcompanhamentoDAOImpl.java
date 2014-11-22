@@ -2,6 +2,7 @@ package br.unisul.sau.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import br.unisul.sau.bean.Acompanhamento;
 import br.unisul.sau.connection.Conexao;
@@ -47,16 +48,23 @@ public class AcompanhamentoDAOImpl implements GenericDAO<Acompanhamento> {
 	}
 
 	@Override
-	public boolean add(Acompanhamento object) {
+	public long add(Acompanhamento bean) {
 		PreparedStatement ps = null;
+		long retorno = -1L;
 		
 		try {
 			String sql = "insert into sau.en_acompanhamento(seq_id_acompanhamento, descricao, data, tempo_execucao)values(DEFAULT, ?, ?, ?)";
-			ps = Conexao.getInstance().prepareStatement(sql);
-			ps.setString(2, object.getDescricao());
-			ps.setDate(3, object.getDate());
-			ps.setDouble(4, object.getTempo_execucao());
-			return ps.execute();
+			ps = Conexao.getInstance().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(2, bean.getDescricao());
+			ps.setDate(3, bean.getDate());
+			ps.setDouble(4, bean.getTempo_execucao());
+			boolean inserido = ps.execute();
+			if (inserido) {
+				ResultSet generatedKeys = ps.getGeneratedKeys();
+				while(generatedKeys.next()) {
+					retorno = generatedKeys.getLong(1);
+				}
+			} 
 		} catch (Exception e) {
 			System.err.println(e);
 		} finally {
@@ -69,7 +77,7 @@ public class AcompanhamentoDAOImpl implements GenericDAO<Acompanhamento> {
 			}
 		}
 		
-		return false;
+		return retorno;
 	}
 
 	@Override
