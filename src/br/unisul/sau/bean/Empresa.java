@@ -3,7 +3,7 @@ package br.unisul.sau.bean;
 public class Empresa {
 	
 	private Long seq_id_empresa;
-	private Long contrato;
+	private Integer contrato;
 	private String nome;
 	
 	public Empresa() {
@@ -18,11 +18,11 @@ public class Empresa {
 		this.seq_id_empresa = seq_id_cliente;
 	}
 
-	public Long getContrato() {
+	public Integer getContrato() {
 		return contrato;
 	}
 
-	public void setContrato(Long contrato) {
+	public void setContrato(Integer contrato) {
 		this.contrato = contrato;
 	}
 

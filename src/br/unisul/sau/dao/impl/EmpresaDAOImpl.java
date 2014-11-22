@@ -17,15 +17,16 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select * from sau.en_empresa where seq_id_empresa = ?";
+			String sql = "select seq_id_empresa, nome, numero_contrato from sau.en_empresa where seq_id_empresa = ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setLong(1, id);
+			ps.setMaxRows(1);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				bean = new Empresa();
 				bean.setSeq_id_empresa(rs.getLong(1));
 				bean.setNome(rs.getString(2));
-				bean.setContrato(rs.getLong(3));
+				bean.setContrato(rs.getInt(3));
 			}
 		} catch (Exception e) {
 			System.err.println(e);
@@ -46,14 +47,53 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 	}
 
 	@Override
-	public boolean add(Empresa object) {
-		// TODO Auto-generated method stub
+	public boolean add(Empresa bean) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "insert into sau.en_empresa(seq_id_empresa, nome, numero_contrato)values(DEFAULT, ?, ?)";
+			ps = Conexao.getInstance().prepareStatement(sql);
+			ps.setString(1, bean.getNome());
+			ps.setInt(2, bean.getContrato());
+			return ps.execute();
+		} catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if (ps!=null) {
+					ps.close();
+				}
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+
 		return false;
 	}
 
 	@Override
-	public boolean update(Empresa object) {
-		// TODO Auto-generated method stub
+	public boolean update(Empresa bean) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "update sau.en_tecnico set nome = ?, numero_contrato = ? where seq_id_tecnico = ?";
+			ps = Conexao.getInstance().prepareStatement(sql);
+			ps.setString(1, bean.getNome());
+			ps.setInt(2, bean.getContrato());
+			ps.setLong(3, bean.getSeq_id_empresa());
+			return ps.execute();
+		} catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if (ps!=null) {
+					ps.close();
+				}
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+
 		return false;
 	}
 
@@ -89,7 +129,7 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select * from sau.en_empresa where contrato = ?";
+			String sql = "select seq_id_empresa, nome, numero_contrato from sau.en_empresa where contrato = ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setLong(1, contrato);
 			rs = ps.executeQuery();
@@ -97,7 +137,7 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 				bean = new Empresa();
 				bean.setSeq_id_empresa(rs.getLong(1));
 				bean.setNome(rs.getString(2));
-				bean.setContrato(rs.getLong(3));
+				bean.setContrato(rs.getInt(3));
 			}
 		} catch (Exception e) {
 			System.err.println(e);
@@ -124,7 +164,7 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select * from sau.en_empresa where nome = ?";
+			String sql = "select seq_id_empresa, nome, numero_contrato from sau.en_empresa where nome like ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setString(1, nome);
 			rs = ps.executeQuery();
@@ -132,7 +172,7 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 				bean = new Empresa();
 				bean.setSeq_id_empresa(rs.getLong(1));
 				bean.setNome(rs.getString(2));
-				bean.setContrato(rs.getLong(3));
+				bean.setContrato(rs.getInt(3));
 			}
 		} catch (Exception e) {
 			System.err.println(e);

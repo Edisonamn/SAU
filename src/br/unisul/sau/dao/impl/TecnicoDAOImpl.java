@@ -17,7 +17,7 @@ public class TecnicoDAOImpl implements GenericDAO<Tecnico>, LoginDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select * from sau.en_tecnico where seq_id_tecnico = ?";
+			String sql = "select seq_id_tecnico, nome, login, pwd from sau.en_tecnico where seq_id_tecnico = ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setLong(1, id);
 			rs = ps.executeQuery();
@@ -47,27 +47,16 @@ public class TecnicoDAOImpl implements GenericDAO<Tecnico>, LoginDAO {
 	}
 
 	@Override
-	public boolean add(Tecnico object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(Tecnico object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean remove(long object) {
-		boolean inserido = false;
+	public boolean add(Tecnico bean) {
 		PreparedStatement ps = null;
 		
 		try {
-			String sql = "update sai.en_tecnico set excluido = 0 where seq_id_tecnico = ?";
+			String sql = "insert into sau.en_tecnico(seq_id_tecnico, nome, login, pwd) values (DEFAULT, ?, ?, ?);";
 			ps = Conexao.getInstance().prepareStatement(sql);
-			ps.setLong(1, object);
-			inserido = ps.execute();
+			ps.setString(1, bean.getNome());
+			ps.setString(2, bean.getUser());
+			ps.setString(3, bean.getPwd());
+			return ps.execute();
 		} catch (Exception e) {
 			System.err.println(e);
 		} finally {
@@ -80,7 +69,58 @@ public class TecnicoDAOImpl implements GenericDAO<Tecnico>, LoginDAO {
 			}
 		}
 
-		return inserido;
+		return false;
+	}
+
+	@Override
+	public boolean update(Tecnico bean) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "update sau.en_tecnico set nome = ?, login = ?, pwd = ? where seq_id_tecnico = ?";
+			ps = Conexao.getInstance().prepareStatement(sql);
+			ps.setString(1, bean.getNome());
+			ps.setString(2, bean.getUser());
+			ps.setString(3, bean.getPwd());
+			ps.setLong(4, bean.getSeq_id_tecnico());
+			return ps.execute();
+		} catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if (ps!=null) {
+					ps.close();
+				}
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean remove(long object) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "update sai.en_tecnico set excluido = 0 where seq_id_tecnico = ?";
+			ps = Conexao.getInstance().prepareStatement(sql);
+			ps.setLong(1, object);
+			return ps.execute();
+		} catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if (ps!=null) {
+					ps.close();
+				}
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+
+		return false;
 	}
 
 	@Override
@@ -90,9 +130,10 @@ public class TecnicoDAOImpl implements GenericDAO<Tecnico>, LoginDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select * from sau.en_tecnico where login = ?";
+			String sql = "select seq_id_tecnico, nome, login, pwd from sau.en_tecnico where login like ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setString(1, user);
+			ps.setMaxRows(1);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				bean = new Tecnico();

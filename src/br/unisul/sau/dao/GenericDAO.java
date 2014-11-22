@@ -4,9 +4,9 @@ public interface GenericDAO<T> {
 
 	T get(long id);
 	
-	boolean add(T object);
+	boolean add(T bean);
 	
-	boolean update(T object);
+	boolean update(T bean);
 	
 	boolean remove(long id);
 	

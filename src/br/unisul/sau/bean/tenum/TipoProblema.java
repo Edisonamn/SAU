@@ -2,27 +2,27 @@ package br.unisul.sau.bean.tenum;
 
 public enum TipoProblema {
 	//comunicação de rede
-	ADSL("adsl","Adsl"),
-	RADIO("radio","Radio"),
-	CABLE_MODEM("cable modem","Cable modem"),
-	OUTRO("outro","Outro"),
+	ADSL(1,"Adsl"),
+	RADIO(2,"Radio"),
+	CABLE_MODEM(3,"Cable modem"),
+	OUTRO(4,"Outro"),
 	
 	//banco de dados
-	MYSQL("mysql","MySql"),
-	ORACLE("oracle","Oracle"),
-	SQLSERVER("sqlserver","SqlServer");
+	MYSQL(5,"MySql"),
+	ORACLE(6,"Oracle"),
+	SQLSERVER(7,"SqlServer");
 	
-	private String key;
+	private Integer key;
 	private String label;
 	
-	private TipoProblema(String key, String label) {
+	private TipoProblema(Integer key, String label) {
 		this.key = key;
 		this.label = label;
 	}
-	public String getKey() {
+	public Integer getKey() {
 		return key;
 	}
-	public void setKey(String key) {
+	public void setKey(Integer key) {
 		this.key = key;
 	}
 	public String getLabel() {
@@ -30,6 +30,27 @@ public enum TipoProblema {
 	}
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public static TipoProblema findByValue(int key) {
+		switch (key) {
+		case 1:
+			return ADSL;
+		case 2:
+			return RADIO;
+		case 3:
+			return CABLE_MODEM;
+		case 4:
+			return OUTRO;
+		case 5:
+			return MYSQL;
+		case 6:
+			return ORACLE;
+		case 7:
+			return SQLSERVER;
+		default:
+			return null;
+		}
 	}
 
 }

@@ -16,9 +16,10 @@ public class AcompanhamentoDAOImpl implements GenericDAO<Acompanhamento> {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select * from sau.en_acompanhamento where seq_id_acompanhamento = ?";
+			String sql = "select seq_id_acompanhamento, descricao, data, tempo_execucao from sau.en_acompanhamento where seq_id_acompanhamento = ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setLong(1, id);
+			ps.setMaxRows(1);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				bean = new Acompanhamento();
@@ -47,7 +48,6 @@ public class AcompanhamentoDAOImpl implements GenericDAO<Acompanhamento> {
 
 	@Override
 	public boolean add(Acompanhamento object) {
-		boolean inserido = false;
 		PreparedStatement ps = null;
 		
 		try {
@@ -56,7 +56,7 @@ public class AcompanhamentoDAOImpl implements GenericDAO<Acompanhamento> {
 			ps.setString(2, object.getDescricao());
 			ps.setDate(3, object.getDate());
 			ps.setDouble(4, object.getTempo_execucao());
-			inserido = ps.execute();
+			return ps.execute();
 		} catch (Exception e) {
 			System.err.println(e);
 		} finally {
@@ -69,7 +69,7 @@ public class AcompanhamentoDAOImpl implements GenericDAO<Acompanhamento> {
 			}
 		}
 		
-		return inserido;
+		return false;
 	}
 
 	@Override
