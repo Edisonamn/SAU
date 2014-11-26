@@ -65,7 +65,7 @@ public class Servlet_Login extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("usuario_logado", true);
 			session.setAttribute("usuario_nome", user.getNome());
-			session.setAttribute("usuario_user", user);
+			session.setAttribute("usuario_id", user.getSeq_id_tecnico());
 			response.sendRedirect("/SAU/index.jsp");
 		} else {
 			response.sendRedirect("/SAU/login.jsp");

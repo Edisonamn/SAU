@@ -68,7 +68,7 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 		long retorno = -1L;
 		
 		try {
-			String sql = "insert intp sau.en_chamado(seq_id_chamado, seq_id_empresa, seq_id_tecnico, nome_cliente, "+
+			String sql = "insert into sau.en_chamado(seq_id_chamado, seq_id_empresa, seq_id_tecnico, nome_cliente, "+
 					"status, problema, tipo_problema, info_problema, software, versao_software, data_chamado, duracao) " +
 					"values (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			ps = Conexao.getInstance().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -83,8 +83,8 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 			ps.setString(9, bean.getVersao_software());
 			ps.setDate(10, bean.getData());
 			ps.setDouble(11, bean.getDuracao());
-			boolean inserido = ps.execute();
-			if (inserido) {
+			int inserido = ps.executeUpdate();
+			if (inserido == 1) {
 				ResultSet generatedKeys = ps.getGeneratedKeys();
 				while(generatedKeys.next()) {
 					retorno = generatedKeys.getLong(1);
@@ -176,7 +176,7 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 		try {
 			String sql = "select seq_id_chamado, seq_id_empresa, seq_id_tecnico, nome_cliente, " +
 						"status, problema, tipo_problema, info_problema, software, versao_software, "+
-						"data_chamado, duracao from sau.en_chamado where status = 1";
+						"data_chamado, duracao from sau.en_chamado where status != 4";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -212,7 +212,7 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 		return list;
 	}
 	
-	public List<Chamado> getAllConcluido() {
+	public List<Chamado> getAllConcluido(TipoProblema tipo) {
 		Chamado bean = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -221,8 +221,10 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 		try {
 			String sql = "select seq_id_chamado, seq_id_empresa, seq_id_tecnico, nome_cliente, " +
 						"status, problema, tipo_problema, info_problema, software, versao_software, "+
-						"data_chamado, duracao from sau.en_chamado where status = 4";
+						"data_chamado, duracao from sau.en_chamado where status = ? and tipo_problema = ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
+			ps.setInt(1, Status.ENCERRADO.getKey());
+			ps.setInt(2, tipo.getKey());
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				list.add(bean = new Chamado());
@@ -255,6 +257,30 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 		}
 
 		return list;
+	}
+
+	public boolean update(int status_new, long id) {
+	PreparedStatement ps = null;
+		
+		try {
+			String sql = "update sau.en_chamado status = ? where seq_id_chamado = ?";
+			ps = Conexao.getInstance().prepareStatement(sql);
+			ps.setInt(1, status_new);
+			ps.setLong(2, id);
+			return ps.execute();
+		} catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if (ps!=null) {
+					ps.close();
+				}
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+
+		return false;
 	}
 
 }

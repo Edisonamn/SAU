@@ -12,7 +12,7 @@ public interface FactoryDAO {
 	
 	ChamadoDAOImpl getChamadoDAOImpl();
 	
-	EmpresaDAOImpl getClienteDAOImpl();
+	EmpresaDAOImpl getEmpresaDAOImpl();
 	
 	TecnicoDAOImpl getTecnicoDAOImpl();
 	

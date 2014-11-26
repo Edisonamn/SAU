@@ -12,7 +12,7 @@ public class FactoryDAOImpl implements FactoryDAO {
 		return new ChamadoDAOImpl();
 	}
 
-	public EmpresaDAOImpl getClienteDAOImpl() {
+	public EmpresaDAOImpl getEmpresaDAOImpl() {
 		return new EmpresaDAOImpl();
 	}
 

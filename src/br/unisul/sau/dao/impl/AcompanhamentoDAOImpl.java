@@ -3,6 +3,8 @@ package br.unisul.sau.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import br.unisul.sau.bean.Acompanhamento;
 import br.unisul.sau.connection.Conexao;
@@ -55,11 +57,17 @@ public class AcompanhamentoDAOImpl implements GenericDAO<Acompanhamento> {
 		try {
 			String sql = "insert into sau.en_acompanhamento(seq_id_acompanhamento, descricao, data, tempo_execucao)values(DEFAULT, ?, ?, ?)";
 			ps = Conexao.getInstance().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			ps.setString(2, bean.getDescricao());
-			ps.setDate(3, bean.getDate());
-			ps.setDouble(4, bean.getTempo_execucao());
-			boolean inserido = ps.execute();
-			if (inserido) {
+			ps.setString(1, bean.getDescricao());
+			try {
+				java.sql.Date a = new java.sql.Date(System.currentTimeMillis());
+				ps.setDate(2, a);
+			} catch (Exception e) {
+				ps.setDate(2, new java.sql.Date(1L));
+			}
+			
+			ps.setDouble(3, bean.getTempo_execucao() == null ? 0 : bean.getTempo_execucao());
+			int inserido = ps.executeUpdate();
+			if (inserido == 1) {
 				ResultSet generatedKeys = ps.getGeneratedKeys();
 				while(generatedKeys.next()) {
 					retorno = generatedKeys.getLong(1);

@@ -1,7 +1,8 @@
+<%@page import="br.unisul.sau.bean.tenum.Problema"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@ page import="java.util.List, br.unisul.sau.bean.*"%>
+<%@ page import="java.util.List, br.unisul.sau.bean.*, br.unisul.sau.bean.tenum.* "%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -42,7 +43,7 @@
 
 					<td><%=c.getSeq_id_chamado()%></td>
 					<td><%=c.getStatus().getLabel()%></td>
-					<td><%=c.getNome_cliente()%></td>
+					<td><%=c.getNome_cliente().isEmpty() ? "" : c.getNome_cliente() %></td>
 					<td><%=c.getSoftware() %></td>
 					<td><%=c.getProblema().getLabel() %></td>
 					<td><%=c.getTipo_problema().getLabel() %></td>

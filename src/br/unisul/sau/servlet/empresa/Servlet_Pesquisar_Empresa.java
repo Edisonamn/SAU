@@ -45,7 +45,7 @@ public class Servlet_Pesquisar_Empresa extends HttpServlet {
 		} else {
 			Empresa empresa = null;
 			if (nome_empresa == null || nome_empresa.isEmpty()) {
-				empresa = new FactoryDAOImpl().getClienteDAOImpl().get(Integer.parseInt(numero_contrato));
+				empresa = new FactoryDAOImpl().getEmpresaDAOImpl().get(Integer.parseInt(numero_contrato));
 
 				request.setAttribute("empresa", empresa);
 				RequestDispatcher rd = request.getRequestDispatcher("/chamado_cadastrar.jsp");
@@ -53,7 +53,7 @@ public class Servlet_Pesquisar_Empresa extends HttpServlet {
 
 			} else {
 				if (numero_contrato == null || numero_contrato.isEmpty()) {
-					empresa = new FactoryDAOImpl().getClienteDAOImpl().get(nome_empresa);
+					empresa = new FactoryDAOImpl().getEmpresaDAOImpl().get(nome_empresa);
 
 					request.setAttribute("empresa", empresa);
 					RequestDispatcher rd = request.getRequestDispatcher("/chamado_cadastrar.jsp");

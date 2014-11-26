@@ -29,12 +29,10 @@ public enum Problema {
 
 	public static Problema findByValue(int key) {
 		switch (key) {
-		case 1:
-			return COMUNICACAO_REDE;
-		case 2:
-			return BANCO_DADOS;
-		case 3:
-			return DESEMPENHO;
+		case 1: return COMUNICACAO_REDE;
+		case 2: return BANCO_DADOS;
+		case 3: return DESEMPENHO;
+		case 4: return NAO_INFORMADO;
 		default:
 			return null;
 		}

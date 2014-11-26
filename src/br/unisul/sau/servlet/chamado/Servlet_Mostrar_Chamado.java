@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jdt.internal.compiler.apt.model.Factory;
+
 import br.unisul.sau.bean.Chamado;
 import br.unisul.sau.dao.impl.ChamadoDAOImpl;
+import br.unisul.sau.dao.impl.FactoryDAOImpl;
 
 /**
  * Servlet implementation class Servlet_Mostrar_Chamado
@@ -35,11 +38,9 @@ public class Servlet_Mostrar_Chamado extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		long radio_consulta_chamado = Long.parseLong(request
-				.getParameter("radio_consulta_chamado"));
+		long radio_consulta_chamado = Long.parseLong(request.getParameter("radio_consulta_chamado"));
 
-		Chamado chamado = chamadoDAOImp.get(radio_consulta_chamado);
-		// Acompanhamento acompanhamento = acompanhamentoDAOImp.get(id);
+		Chamado chamado = new FactoryDAOImpl().getChamadoDAOImpl().get(radio_consulta_chamado);
 
 		request.setAttribute("chamado", chamado);
 		RequestDispatcher rd = request

@@ -31,7 +31,7 @@
 						<ul class="nav navbar-nav">
 							<li class="active"><a href="index.jsp">Início</a></li>
 
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
+							<li class="dropdown"><a class="dropdown-toggle"
 								data-toggle="dropdown">Terminal Técnico <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li role="navigation" class="dropdown-header">Empresa</li>

@@ -52,11 +52,14 @@ public class ChamadoAcompanhamentoDAOImpl implements RelacioamentoDAO<ChamadoAco
 		PreparedStatement ps = null;
 		
 		try {
-			String sql = "insert into sau.re_acompanhamento_chamado set seq_id_chamado = ?, seq_id_acompanhamento = ?";
+			String sql = "insert into sau.re_chamado_acompanhamento (seq_id_chamado, seq_id_acompanhamento) values (?, ?)";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setLong(1, bean.getSeq_id_chamado());
 			ps.setLong(2, bean.getSeq_id_acompanhamento());
-			return ps.execute();
+			int executeUpdate = ps.executeUpdate();
+			if (executeUpdate == 1) {
+				return true;
+			}
 		} catch (Exception e) {
 			System.err.println(e);
 		} finally {

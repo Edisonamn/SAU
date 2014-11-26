@@ -35,6 +35,7 @@ public enum Status {
 		case 3: return AGUARDANDO_RESPOSTA;
 		case 4: return ENCERRADO;
 		case 5: return SEM_SOLUCAO;
+		case 6: return NAO_INFORMADO;
 		default: return null;
 		}
 	}

@@ -50,6 +50,8 @@ public enum TipoProblema {
 			return ORACLE;
 		case 7:
 			return SQLSERVER;
+		case 8:
+			return NAO_INFORMADO;
 		default:
 			return null;
 		}

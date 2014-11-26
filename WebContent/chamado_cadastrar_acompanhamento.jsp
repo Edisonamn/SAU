@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@ page import="java.util.List, br.unisul.sau.bean.*"%>
+<%@ page import="java.util.List, br.unisul.sau.bean.* , br.unisul.sau.bean.tenum.*"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,7 +22,7 @@
 	<form class="form-horizontal" action="Servlet_Acompanhar_Chamados"
 		method="post">
 		<fieldset>
-
+			<input type="hidden" value="<%= chamado.getStatus().getKey() %>" name="status_anterior" />
 			<legend>Conteúdo do Chamado</legend>
 
 			<div class="form-group">
@@ -31,7 +31,7 @@
 				<div class="col-md-4">
 					<input id="id_chamado" value="<%=chamado.getSeq_id_chamado()%>"
 						name="id_chamado" type="text" placeholder=""
-						class="form-control input-md" readonly="true">
+						class="form-control input-md">
 				</div>
 			</div>
 			
@@ -39,13 +39,15 @@
 				<label class="col-md-4 control-label" for="status">Status do
 					Chamado</label>
 				<div class="col-md-4">
-					<select id="status" name="status" class="form-control"
-						disabled="true">
-						<option value="<%=chamado.getStatus().getKey()%>">
+					<select id="status" name="status" class="form-control">
+					
+						<% for (Status status : Status.values()) { %>
+						<option value="<%= status.getKey() %>">
 							<%=
-								chamado.getStatus().getLabel()
+									status.getLabel()
 							%>
 						</option>
+						<% } %>
 					</select>
 				</div>
 			</div>
@@ -56,7 +58,7 @@
 				<div class="col-md-4">
 					<input id="nome_cliente" name="nome_cliente"
 						value="<%=chamado.getNome_cliente()%>" type="text" placeholder=""
-						class="form-control input-md" readonly="true">
+						class="form-control input-md">
 				</div>
 			</div>
 

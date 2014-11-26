@@ -3,10 +3,6 @@ package br.unisul.sau.servlet.chamado;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,18 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JLabel;
 
 import br.unisul.sau.bean.Chamado;
-import br.unisul.sau.bean.ChamadoAcompanhamento;
-import br.unisul.sau.bean.Empresa;
 import br.unisul.sau.bean.Tecnico;
 import br.unisul.sau.bean.tenum.Problema;
 import br.unisul.sau.bean.tenum.Status;
 import br.unisul.sau.bean.tenum.TipoProblema;
-import br.unisul.sau.dao.impl.ChamadoAcompanhamentoDAOImpl;
-import br.unisul.sau.dao.impl.ChamadoDAOImpl;
-import br.unisul.sau.dao.impl.EmpresaDAOImpl;
 import br.unisul.sau.dao.impl.FactoryDAOImpl;
 
 /**
@@ -74,8 +64,13 @@ public class Servlet_Cadastrar_Chamado extends HttpServlet {
 		} catch (ParseException e) {
 			chamado.setData(new java.sql.Date(1L));
 		}
-		
-		chamado.setDuracao(Double.parseDouble(duracao));
+
+		if (duracao.isEmpty()) {
+			chamado.setDuracao(0D);
+		} else {
+			duracao = duracao.replaceAll(",", ".");
+			chamado.setDuracao(Double.parseDouble(duracao));
+		}
 		
 		try {
 			chamado.setProblema(Problema.findByValue(Integer.parseInt(problema)));
@@ -102,7 +97,7 @@ public class Servlet_Cadastrar_Chamado extends HttpServlet {
 		} else {
 			System.out.println("Não Inserido");
 		}
-
-		response.sendRedirect("/SAU/empresa_pesquisar.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/empresa_pesquisar.jsp");
+		rd.include(request, response);
 	}
 }//
