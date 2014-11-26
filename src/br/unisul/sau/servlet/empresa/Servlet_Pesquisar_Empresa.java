@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.unisul.sau.bean.Empresa;
 import br.unisul.sau.dao.impl.EmpresaDAOImpl;
+import br.unisul.sau.dao.impl.FactoryDAOImpl;
 
 /**
  * Servlet implementation class Servlet_Pesquisar_Empresa
@@ -38,34 +39,29 @@ public class Servlet_Pesquisar_Empresa extends HttpServlet {
 		String nome_empresa = request.getParameter("nome_empresa");
 		String numero_contrato = request.getParameter("numero_contrato");
 
-		Empresa empresa = new Empresa();
-
-		if (nome_empresa == null && numero_contrato == null) {
+		if ((nome_empresa == null || nome_empresa.isEmpty()) && (numero_contrato == null || numero_contrato.isEmpty())) {
 			response.sendRedirect("/SAU/empresa_pesquisar.jsp");
 
-		} else if (nome_empresa == null && numero_contrato != null) {
-			try {
-				empresa = empresaDAOImp.get(numero_contrato);
-			} catch (Exception e) {
-				e.printStackTrace();
+		} else {
+			Empresa empresa = null;
+			if (nome_empresa == null || nome_empresa.isEmpty()) {
+				empresa = new FactoryDAOImpl().getClienteDAOImpl().get(Integer.parseInt(numero_contrato));
+
+				request.setAttribute("empresa", empresa);
+				RequestDispatcher rd = request.getRequestDispatcher("/chamado_cadastrar.jsp");
+				rd.include(request, response);
+
+			} else {
+				if (numero_contrato == null || numero_contrato.isEmpty()) {
+					empresa = new FactoryDAOImpl().getClienteDAOImpl().get(nome_empresa);
+
+					request.setAttribute("empresa", empresa);
+					RequestDispatcher rd = request.getRequestDispatcher("/chamado_cadastrar.jsp");
+					rd.include(request, response);
+				} else {
+					response.sendRedirect("/SAU/empresa_pesquisar.jsp");
+				}
 			}
-
-			request.setAttribute("empresa", empresa);
-			RequestDispatcher rd = request
-					.getRequestDispatcher("/chamado_cadastrar.jsp");
-			rd.include(request, response);
-
-		} else if (nome_empresa != null && numero_contrato == null) {
-			try {
-				empresa = empresaDAOImp.get(nome_empresa);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			request.setAttribute("empresa", empresa);
-			RequestDispatcher rd = request
-					.getRequestDispatcher("/chamado_cadastrar.jsp");
-			rd.include(request, response);
 		}
 	}
 
@@ -75,7 +71,7 @@ public class Servlet_Pesquisar_Empresa extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+			this.doGet(request, response);
 	}
 
 }

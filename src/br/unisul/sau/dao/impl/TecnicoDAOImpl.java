@@ -146,8 +146,8 @@ public class TecnicoDAOImpl implements GenericDAO<Tecnico>, LoginDAO {
 				bean = new Tecnico();
 				bean.setSeq_id_tecnico(rs.getLong(1));
 				bean.setNome(rs.getString(2));
-				bean.setUser(rs.getString(2));
-				bean.setPwd(rs.getString(2));
+				bean.setUser(rs.getString(3));
+				bean.setPwd(rs.getString(4));
 			}
 		} catch (Exception e) {
 			System.err.println(e);

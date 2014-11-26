@@ -47,7 +47,7 @@
 							<li><a href="Servlet_Login">Sair</a></li>
 
 							<ul class="navbar-text navbar-right">
-								<li>Técnico autenticado: <%=session.getAttribute("usuario_logado")%></li>
+								<li>Técnico autenticado: <%=session.getAttribute("usuario_nome")%></li>
 							</ul>
 
 						</ul>

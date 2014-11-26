@@ -19,10 +19,12 @@ import javax.swing.JLabel;
 import br.unisul.sau.bean.Chamado;
 import br.unisul.sau.bean.ChamadoAcompanhamento;
 import br.unisul.sau.bean.Empresa;
+import br.unisul.sau.bean.Tecnico;
 import br.unisul.sau.bean.tenum.Status;
 import br.unisul.sau.dao.impl.ChamadoAcompanhamentoDAOImpl;
 import br.unisul.sau.dao.impl.ChamadoDAOImpl;
 import br.unisul.sau.dao.impl.EmpresaDAOImpl;
+import br.unisul.sau.dao.impl.FactoryDAOImpl;
 
 /**
  * Servlet implementation class Servlet_Cadastrar_Chamado
@@ -58,14 +60,11 @@ public class Servlet_Cadastrar_Chamado extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// HttpSession session = request.getSession();
-		// Usuario usuario = new Usuario();
-		// usuario = (Usuario) session.getAttribute("usuario_logado");
+		 HttpSession session = request.getSession();
+		 Tecnico tecnico = (Tecnico) session.getAttribute("usuario_user");
 
-		String nome_empresa = request.getParameter("nome_empresa");// para pegar
-																	// o id pelo
-																	// nome
-
+		String id = request.getParameter("seq_id");
+		String nome_empresa = request.getParameter("nome_empresa");
 		String nome_cliente = request.getParameter("nome_cliente");
 		String software = request.getParameter("software");
 		String versao_software = request.getParameter("versao_software");
@@ -87,21 +86,10 @@ public class Servlet_Cadastrar_Chamado extends HttpServlet {
 		chamado.setInfo_problema(descricao_problema);
 
 		// vinculando a empresa ao chamado
-		Empresa empresa = new Empresa();
-		empresa = empresaDAOImp.get(nome_empresa);
-		chamado.setSeq_id_empresa(empresa.getSeq_id_empresa());
+		chamado.setSeq_id_empresa(Long.parseLong(id));
+		chamado.setSeq_id_tecnico(tecnico.getSeq_id_tecnico());
 
-		// vinculando o chamado ao chamadoAcompanhamento | Ta certo isso EDISON?
-		ChamadoAcompanhamento chamadoAcompanhamento = new ChamadoAcompanhamento();
-		chamadoAcompanhamento.setSeq_id_chamado(chamado.getSeq_id_chamado());
-		// chamadoAcompanhamento.setSeq_id_acompanhamento(seq_id_acompanhamento);
-
-		try {
-			chamadoDAOImp.add(chamado);
-			chamadoAcompanhamentoDAOImp.add(chamadoAcompanhamento);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		long add = new FactoryDAOImpl().getChamadoDAOImpl().add(chamado);
 
 		response.sendRedirect("/SAU/empresa_pesquisar.jsp");
 	}

@@ -1,15 +1,18 @@
 package br.unisul.sau.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession; //quem sabe utilizar o import no cabeçalho para nao retornar null no nome do usuário logado
+import javax.servlet.http.HttpSession; //quem sabe utilizar o import no cabeï¿½alho para nao retornar null no nome do usuï¿½rio logado
+
+import br.unisul.sau.bean.Tecnico;
+import br.unisul.sau.dao.impl.FactoryDAOImpl;
 
 /**
  * Servlet implementation class Principal
@@ -43,9 +46,6 @@ public class Servlet_Login extends HttpServlet {
 		session.invalidate();
 		session = null;
 
-		System.out
-				.println("-----------------------------------------------------------------"
-						+ "\nSession Finalizada.");
 		response.sendRedirect("/SAU/login.jsp");
 	}
 
@@ -55,45 +55,21 @@ public class Servlet_Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		System.out
-				.println("-----------------------------------------------------------------"
-						+ "\nIniciando Session.");
 
-//		HttpSession session = request.getSession();
-//
-//		String login = request.getParameter("login");
-//		String senha = request.getParameter("senha");
-//
-//		List<Usuario> lista_usuarios = usuarioDAO.listar();
-//
-//		Usuario usuario_logado = new Usuario();
-//
-//		boolean aux_login = false;
-//
-//		for (Usuario user : lista_usuarios) {
-//			if (user.getLogin().equals(login)) {
-//				if (user.getSenha().equals(senha)) {
-//					usuario_logado = user;
-//					aux_login = true;
-//				}
-//			}
-//		}
-//
-//		if (aux_login == true) {
-//			session.setAttribute("usuario_logado", usuario_logado);
-//
-//			System.out
-//					.println("-----------------------------------------------------------------"
-//							+ "\nSession Iniciada.");
-//			response.sendRedirect("/SAU/index.jsp");
-//			//Tentar mandar por dispatcher o usuario logado.
-//
-//		} else {
-//			System.out
-//					.println("-----------------------------------------------------------------"
-//							+ "\nLogin ou Senha incorretos!");
-//			response.sendRedirect("/SAU/login.jsp");
-//		}
+		String login = request.getParameter("login");
+		String senha = request.getParameter("senha");
+		
+		Tecnico user = new FactoryDAOImpl().getTecnicoDAOImpl().getUser(login);
+		
+		if (senha.equals(user.getPwd())) {
+			HttpSession session = request.getSession();
+			session.setAttribute("usuario_logado", true);
+			session.setAttribute("usuario_nome", user.getNome());
+			session.setAttribute("usuario_user", user);
+			response.sendRedirect("/SAU/index.jsp");
+		} else {
+			response.sendRedirect("/SAU/login.jsp");
+		}
 
 	}
 

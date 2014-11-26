@@ -21,8 +21,8 @@
 	<form class="form-horizontal" action="Servlet_Cadastrar_Chamado"
 		method="post">
 		<fieldset>
-
-			<legend>Lista de Chamados</legend>
+			<input type="hidden" value="<%= empresa.getSeq_id_empresa() %>" name="seq_id">
+			<legend>Cadastrar Chamado</legend>
 			
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="nome_empresa">Nome

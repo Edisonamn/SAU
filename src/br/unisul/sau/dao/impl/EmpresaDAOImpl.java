@@ -136,7 +136,7 @@ public class EmpresaDAOImpl implements GenericDAO<Empresa>, EmpresaDAO {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select seq_id_empresa, nome, numero_contrato from sau.en_empresa where contrato = ?";
+			String sql = "select seq_id_empresa, nome, numero_contrato from sau.en_empresa where numero_contrato = ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setLong(1, contrato);
 			rs = ps.executeQuery();

@@ -12,7 +12,7 @@ public class BDProperties {
 		props = new Properties();
 		try {
 //			InputStream is = getClass().getResourceAsStream("./WebContent/properties/banco.properties");
-			FileInputStream is = new FileInputStream("./WebContent/properties/banco.properties");
+			FileInputStream is = new FileInputStream("/Users/edison/Unisul/Workspace/SAU/src/properties/banco.properties");
 			props.load(is);
 		} catch (Exception e) {
 			e.printStackTrace();
