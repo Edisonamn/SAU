@@ -16,7 +16,7 @@
 	<%
 		Chamado chamado = (Chamado) request.getAttribute("Chamado");
 		
-			Acompanhamento acompanhamento = (Acompanhamento) request.getAttribute("Acompanhamento");
+			//Acompanhamento acompanhamento = (Acompanhamento) request.getAttribute("Acompanhamento");
 	%>
 
 	<form class="form-horizontal" action="Servlet_Acompanhar_Chamados"
@@ -25,6 +25,16 @@
 
 			<legend>Conteúdo do Chamado</legend>
 
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="id_chamado">Id do
+					Chamado</label>
+				<div class="col-md-4">
+					<input id="id_chamado" value="<%=chamado.getSeq_id_chamado()%>"
+						name="id_chamado" type="text" placeholder=""
+						class="form-control input-md" readonly="true">
+				</div>
+			</div>
+			
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="status">Status do
 					Chamado</label>
@@ -37,16 +47,6 @@
 							%>
 						</option>
 					</select>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="id_chamado">Id do
-					Chamado</label>
-				<div class="col-md-4">
-					<input id="id_chamado" value="<%=chamado.getSeq_id_chamado()%>"
-						name="id_chamado" type="text" placeholder=""
-						class="form-control input-md" readonly="true">
 				</div>
 			</div>
 
@@ -105,7 +105,7 @@
 						disabled="true">
 						<option value="<%=chamado.getProblema().getKey()%>">
 							<%=
-								chamado.getProblema().getLagel()
+								chamado.getProblema().getLabel()
 							%>
 						</option>
 					</select>
@@ -139,29 +139,15 @@
 				</div>
 			</div>
 			
-			<!-- ------------------ASSIM------------------ -->
-
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="acompanhamento_problema">Acompanhamento
 					do problema</label>
 				<div class="col-md-4">
-					<textarea id="acompanhamento_problema"
-						value="<%chamado.getAcompanhamento????%>" class="form-control"
+					<textarea id="acompanhamento_problema" name="acompanhamento_problema" class="form-control"
 						rows="" cols=""></textarea>
 				</div>
 			</div>
-
-
-			<!-- ------------------OU ASSIM------------------ -->
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="acompanhamento_problema">Acompanhamento
-					do problema</label>
-				<div class="col-md-4">
-					<textarea id="acompanhamento_problema" class="form-control" rows=""
-						cols=""><%=acompanhamento.getDescricao()%></textarea>
-				</div>
-			</div>
-
+			
 			<br> <br />
 
 			<div class="form-group">

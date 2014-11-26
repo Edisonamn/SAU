@@ -1,5 +1,7 @@
+<%@page import="br.unisul.sau.bean.Empresa"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,25 +12,28 @@
 
 	<%@include file="template/cabecalho.jsp"%>
 
-	<form class="form-horizontal" action="Servlet_Pesquisar_Empresa" method="get">
+
+	<form class="form-horizontal" action="Servlet_Listar_Chamados_Concluidos"
+		method="get">
 		<fieldset>
 
-			<legend>Pesquisar Empresa</legend>
+			<legend>Tipo do problema</legend>
+
 
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="nome_empresa">Nome
-					da Empresa</label>
+				<label class="col-md-4 control-label" for="tipo_problema">Tipo
+					do problema</label>
 				<div class="col-md-4">
-					<input id="nome_empresa" name="nome_empresa" type="text"
-						placeholder="" class="form-control input-md">
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="numero_contrato">Nº do contrato</label>
-				<div class="col-md-4">
-					<input id="numero_contrato" name="numero_contrato" type="text"
-						placeholder="" class="form-control input-md">
+					<select id="tipo_problema" name="tipo_problema"
+						class="form-control">
+						<option value="adsl">Adsl</option>
+						<option value="radio">Radio</option>
+						<option value="cable model">Cable modem</option>
+						<option value="mysql">Mysql</option>
+						<option value="oracle">Oracle</option>
+						<option value="sqlserver">SqlServer</option>
+						<option value="outro">Outro</option>
+					</select>
 				</div>
 			</div>
 

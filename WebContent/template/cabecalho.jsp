@@ -34,29 +34,20 @@
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
 								data-toggle="dropdown">Terminal Técnico <b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li role="navigation" class="dropdown-header">Chamados</li>
-									<li><a href="Servlet_Listar_Chamados">Listar ou Repassar Chamados Abertos</a></li>
-								</ul></li>
-								
-								<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown">Terminal Cliente <b class="caret"></b></a>
-								<ul class="dropdown-menu">
-								<li role="navigation" class="dropdown-header">Chamados</li>
-									<li><a href="Servlet_Cadastrar_Chamado">Cadastrar Chamado</a></li>
-									<li><a href="TERMINAR AQUI- Servlet_Listar_Chamados">Listar ou Cancelar Chamados Abertos</a></li>
-								</ul></li>
-								
-								<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown">(Testes) Cadastra Usuario ou Sistema<b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a href="usuario_cadastrar.jsp">Cadastrar Usuarios</a></li>
-									<li><a href="sistema_cadastrar.jsp">Cadastrar Sistemas</a></li>
+									<li role="navigation" class="dropdown-header">Empresa</li>
+									<li><a href="empresa_pesquisar.jsp">Pesquisar Empresa</a></li>
+									
+									<li role="navigation" class="dropdown-header">Chamado</li>
+									<li><a href="Servlet_Listar_Chamados_Em_Aberto">Listar Chamados em Aberto</a></li>
+									
+									<li role="navigation" class="dropdown-header">Relatório</li>
+									<li><a href="tipo_problema_pesquisa.jsp">Relatório - Tipo do Problema</a></li>
 								</ul></li>
 								
 							<li><a href="Servlet_Login">Sair</a></li>
 
 							<ul class="navbar-text navbar-right">
-								<li>Usuário autenticado: <%=session.getAttribute("usuario_logado")%></li>
+								<li>Técnico autenticado: <%=session.getAttribute("usuario_logado")%></li>
 							</ul>
 
 						</ul>

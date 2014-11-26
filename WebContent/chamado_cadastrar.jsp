@@ -1,3 +1,4 @@
+<%@page import="br.unisul.sau.bean.Empresa"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -10,6 +11,11 @@
 <body>
 
 	<%@include file="template/cabecalho.jsp"%>
+	
+	
+	<%
+		Empresa empresa = (Empresa) request.getAttribute("empresa");
+	%>
 
 
 	<form class="form-horizontal" action="Servlet_Cadastrar_Chamado"
@@ -17,6 +23,23 @@
 		<fieldset>
 
 			<legend>Lista de Chamados</legend>
+			
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="nome_empresa">Nome
+					da Empresa</label>
+				<div class="col-md-4">
+					<input id="nome_empresa" value="<%=empresa.getNome() %>" name="nome_empresa" type="text"
+						placeholder="" class="form-control input-md">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="numero_contrato">Nº do contrato</label>
+				<div class="col-md-4">
+					<input id="numero_contrato" value="<%=empresa.getContrato() %>" name="numero_contrato" type="text"
+						placeholder="" class="form-control input-md">
+				</div>
+			</div>
 
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="nome_cliente">Nome

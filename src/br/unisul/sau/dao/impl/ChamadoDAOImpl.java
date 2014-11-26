@@ -211,5 +211,50 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 
 		return list;
 	}
+	
+	public List<Chamado> getAllConcluido() {
+		Chamado bean = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Chamado> list = new ArrayList<Chamado>();
+		
+		try {
+			String sql = "select seq_id_chamado, seq_id_empresa, seq_id_tecnico, nome_cliente, " +
+						"status, problema, tipo_problema, info_problema, software, versao_software, "+
+						"data_chamado, duracao from sau.en_chamado where status = 4";
+			ps = Conexao.getInstance().prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(bean = new Chamado());
+				bean.setSeq_id_chamado(rs.getLong(1));
+				bean.setSeq_id_empresa(rs.getLong(2));
+				bean.setSeq_id_tecnico(rs.getLong(3));
+				bean.setNome_cliente(rs.getString(4));
+				bean.setStatus(Status.findByValue(rs.getInt(5)));
+				bean.setProblema(Problema.findByValue(rs.getInt(6)));
+				bean.setTipo_problema(TipoProblema.findByValue(rs.getInt(7)));
+				bean.setInfo_problema(rs.getString(8));
+				bean.setSoftware(rs.getString(9));
+				bean.setVersao_software(rs.getString(10));
+				bean.setData(rs.getDate(11));
+				bean.setDuracao(rs.getDouble(12));
+			}
+		} catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			try {
+				if (rs!=null) {
+					rs.close();
+				}
+				if (ps!=null) {
+					ps.close();
+				}
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+
+		return list;
+	}
 
 }

@@ -13,19 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.unisul.sau.bean.Chamado;
-
+import br.unisul.sau.dao.impl.ChamadoDAOImpl;
 
 /**
  * Servlet implementation class Servlet_Listar_Chamados
  */
 @WebServlet("/Servlet_Listar_Chamados")
-public class Servlet_Listar_Chamados extends HttpServlet {
+public class Servlet_Listar_Chamados_Em_Aberto extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	ChamadoDAOImpl chamadoDAOImp = new ChamadoDAOImpl();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Servlet_Listar_Chamados() {
+	public Servlet_Listar_Chamados_Em_Aberto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -36,16 +38,18 @@ public class Servlet_Listar_Chamados extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-//		HttpSession session = request.getSession();
-//		Usuario usuario = new Usuario();
-//		usuario = (Usuario) session.getAttribute("usuario_logado");
 
-//		List<Chamado> lista_chamados = ;
-		
-		
-//		request.setAttribute("lista_chamados_usuario_logado", lista_chamados);
+		List<Chamado> lista_chamados_abertos = new ArrayList<Chamado>();
+
+		try {
+			lista_chamados_abertos = chamadoDAOImp.getAllAberto();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		request.setAttribute("lista_chamados_abertos", lista_chamados_abertos);
 		RequestDispatcher rd = request
-				.getRequestDispatcher("/chamados_listar_todos.jsp");
+				.getRequestDispatcher("/chamados_listar_todos_em_aberto.jsp");
 		rd.include(request, response);
 	}
 
@@ -55,7 +59,7 @@ public class Servlet_Listar_Chamados extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated constructor stub
+		// TODO Auto-generated method stub
 	}
 
 }//
