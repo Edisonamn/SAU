@@ -1,7 +1,7 @@
 package br.unisul.sau.bean.tenum;
 
 public enum Problema {
-	COMUNICACAO_REDE(1, "Comunicação de rede"), BANCO_DADOS(2, "Banco e dados"), DESEMPENHO(3, "");
+	COMUNICACAO_REDE(1, "Comunicação de rede"), BANCO_DADOS(2, "Banco e dados"), DESEMPENHO(3, "Desempenho"), NAO_INFORMADO(4, "Não Informado");
 
 	private Integer key;
 	private String label;

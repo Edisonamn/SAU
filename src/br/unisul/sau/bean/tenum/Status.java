@@ -5,7 +5,8 @@ public enum Status {
 	EM_ATENDIMENTO(2,"Em atendimento"),
 	AGUARDANDO_RESPOSTA(3,"Aguardando resposta"),
 	ENCERRADO(4,"Encerrado"),
-	SEM_SOLUCAO(5,"Sem solução");
+	SEM_SOLUCAO(5,"Sem solução"),
+	NAO_INFORMADO(6, "Não Informado");
 	
 	private Integer key;
 	private String label;

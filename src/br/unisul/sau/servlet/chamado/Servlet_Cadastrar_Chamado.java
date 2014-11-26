@@ -1,6 +1,7 @@
 package br.unisul.sau.servlet.chamado;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,7 +21,9 @@ import br.unisul.sau.bean.Chamado;
 import br.unisul.sau.bean.ChamadoAcompanhamento;
 import br.unisul.sau.bean.Empresa;
 import br.unisul.sau.bean.Tecnico;
+import br.unisul.sau.bean.tenum.Problema;
 import br.unisul.sau.bean.tenum.Status;
+import br.unisul.sau.bean.tenum.TipoProblema;
 import br.unisul.sau.dao.impl.ChamadoAcompanhamentoDAOImpl;
 import br.unisul.sau.dao.impl.ChamadoDAOImpl;
 import br.unisul.sau.dao.impl.EmpresaDAOImpl;
@@ -32,32 +35,18 @@ import br.unisul.sau.dao.impl.FactoryDAOImpl;
 @WebServlet("/Servlet_Cadastrar_Chamado")
 public class Servlet_Cadastrar_Chamado extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
-	ChamadoDAOImpl chamadoDAOImp = new ChamadoDAOImpl();
-	EmpresaDAOImpl empresaDAOImp = new EmpresaDAOImpl();
-	ChamadoAcompanhamentoDAOImpl chamadoAcompanhamentoDAOImp = new ChamadoAcompanhamentoDAOImpl();
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public Servlet_Cadastrar_Chamado() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		this.doPost(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		 HttpSession session = request.getSession();
@@ -79,10 +68,27 @@ public class Servlet_Cadastrar_Chamado extends HttpServlet {
 		chamado.setStatus(Status.INICIADO);
 		chamado.setNome_cliente(nome_cliente);
 		chamado.setSoftware(versao_software);
-		// chamado.setData(data);
-		// chamado.setDuracao(duracao);
-		// chamado.setProblema(problema);
-		// chamado.setTipo_problema(tipo_problema);
+		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+		try {
+			chamado.setData(new java.sql.Date(sdf.parse(data).getTime()));
+		} catch (ParseException e) {
+			chamado.setData(new java.sql.Date(1L));
+		}
+		
+		chamado.setDuracao(Double.parseDouble(duracao));
+		
+		try {
+			chamado.setProblema(Problema.findByValue(Integer.parseInt(problema)));
+		} catch(Exception e) {
+			chamado.setProblema(Problema.NAO_INFORMADO);
+		}
+		
+		try {
+			chamado.setTipo_problema(TipoProblema.findByValue(Integer.parseInt(tipo_problema)));
+		} catch(Exception e) {
+			chamado.setTipo_problema(TipoProblema.NAO_INFORMADO);
+		}
+		
 		chamado.setInfo_problema(descricao_problema);
 
 		// vinculando a empresa ao chamado
@@ -90,6 +96,12 @@ public class Servlet_Cadastrar_Chamado extends HttpServlet {
 		chamado.setSeq_id_tecnico(tecnico.getSeq_id_tecnico());
 
 		long add = new FactoryDAOImpl().getChamadoDAOImpl().add(chamado);
+		
+		if (add > 0) {
+			System.out.println("Inserido");
+		} else {
+			System.out.println("Não Inserido");
+		}
 
 		response.sendRedirect("/SAU/empresa_pesquisar.jsp");
 	}

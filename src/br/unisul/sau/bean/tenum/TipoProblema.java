@@ -10,7 +10,9 @@ public enum TipoProblema {
 	//banco de dados
 	MYSQL(5,"MySql"),
 	ORACLE(6,"Oracle"),
-	SQLSERVER(7,"SqlServer");
+	SQLSERVER(7,"SqlServer"),
+	
+	NAO_INFORMADO(8, "Não Informado");
 	
 	private Integer key;
 	private String label;
