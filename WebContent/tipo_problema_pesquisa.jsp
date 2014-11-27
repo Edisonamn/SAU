@@ -26,13 +26,13 @@
 				<div class="col-md-4">
 					<select id="tipo_problema" name="tipo_problema"
 						class="form-control">
-						<option value="adsl">Adsl</option>
-						<option value="radio">Radio</option>
-						<option value="cable model">Cable modem</option>
-						<option value="mysql">Mysql</option>
-						<option value="oracle">Oracle</option>
-						<option value="sqlserver">SqlServer</option>
-						<option value="outro">Outro</option>
+						<option value="1">Adsl</option>
+						<option value="2">Radio</option>
+						<option value="3">Cable modem</option>
+						<option value="5">Mysql</option>
+						<option value="6">Oracle</option>
+						<option value="7">SqlServer</option>
+						<option value="4">Outro</option>
 					</select>
 				</div>
 			</div>

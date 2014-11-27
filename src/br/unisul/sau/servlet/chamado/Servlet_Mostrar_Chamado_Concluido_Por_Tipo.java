@@ -60,16 +60,14 @@ public class Servlet_Mostrar_Chamado_Concluido_Por_Tipo extends HttpServlet {
 			chamado = chamadoDAOImp.get(radio_consulta_chamado);
 			empresa = empresaDAOImp.get(chamado.getSeq_id_empresa());
 
-			// COMO PEGA OS ACOMPANHAMENTOS EDISON!!1!!1! 
 			lista_chamadoAcompanhamento = chamadoAcompanhamentoDAOImpl
 					.getAll(radio_consulta_chamado);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		// COMO PEGA ESSA PORRA !!1!!1! X_X
-//		Acompanhamento acompanhamento = new Acompanhamento();
-//		acompanhamento = acompanhamentoDAOImpl.get(id);
+
+		// Acompanhamento acompanhamento = new Acompanhamento();
+		// acompanhamento = acompanhamentoDAOImpl.get(id);
 
 		request.setAttribute("chamado", chamado);
 		request.setAttribute("empresa", empresa);
