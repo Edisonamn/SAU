@@ -41,63 +41,73 @@ public class Servlet_Cadastrar_Chamado extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		 HttpSession session = request.getSession();
 		 Tecnico tecnico = (Tecnico) session.getAttribute("usuario_user");
+		 
+		 if (tecnico == null) {
+			 response.sendRedirect("/SAU/login.jsp");
+		 } else {
 
-		String id = request.getParameter("seq_id");
-		String nome_empresa = request.getParameter("nome_empresa");
-		String nome_cliente = request.getParameter("nome_cliente");
-		String software = request.getParameter("software");
-		String versao_software = request.getParameter("versao_software");
-		String data = request.getParameter("data");
-		String duracao = request.getParameter("duracao");
+			String id = request.getParameter("seq_id");
+			String nome_empresa = request.getParameter("nome_empresa");
+			String nome_cliente = request.getParameter("nome_cliente");
+			String software = request.getParameter("software");
+			String versao_software = request.getParameter("versao_software");
+			String data = request.getParameter("data");
+			String duracao = request.getParameter("duracao");
 
-		String problema = request.getParameter("problema");
-		String tipo_problema = request.getParameter("tipo_problema");
-		String descricao_problema = request.getParameter("descricao_problema");
+			String problema = request.getParameter("problema");
+			String tipo_problema = request.getParameter("tipo_problema");
+			String descricao_problema = request
+					.getParameter("descricao_problema");
 
-		Chamado chamado = new Chamado();
-		chamado.setStatus(Status.INICIADO);
-		chamado.setNome_cliente(nome_cliente);
-		chamado.setSoftware(versao_software);
-		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-		try {
-			chamado.setData(new java.sql.Date(sdf.parse(data).getTime()));
-		} catch (ParseException e) {
-			chamado.setData(new java.sql.Date(1L));
-		}
+			Chamado chamado = new Chamado();
+			chamado.setStatus(Status.INICIADO);
+			chamado.setNome_cliente(nome_cliente);
+			chamado.setSoftware(versao_software);
+			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+			data = data.replaceAll("\\D", "");
+			try {
+				chamado.setData(new java.sql.Date(sdf.parse(data).getTime()));
+			} catch (ParseException e) {
+				chamado.setData(new java.sql.Date(1L));
+			}
 
-		if (duracao.isEmpty()) {
-			chamado.setDuracao(0D);
-		} else {
-			duracao = duracao.replaceAll(",", ".");
-			chamado.setDuracao(Double.parseDouble(duracao));
-		}
-		
-		try {
-			chamado.setProblema(Problema.findByValue(Integer.parseInt(problema)));
-		} catch(Exception e) {
-			chamado.setProblema(Problema.NAO_INFORMADO);
-		}
-		
-		try {
-			chamado.setTipo_problema(TipoProblema.findByValue(Integer.parseInt(tipo_problema)));
-		} catch(Exception e) {
-			chamado.setTipo_problema(TipoProblema.NAO_INFORMADO);
-		}
-		
-		chamado.setInfo_problema(descricao_problema);
+			if (duracao.isEmpty()) {
+				chamado.setDuracao(0D);
+			} else {
+				duracao = duracao.replaceAll(",", ".");
+				chamado.setDuracao(Double.parseDouble(duracao));
+			}
 
-		// vinculando a empresa ao chamado
-		chamado.setSeq_id_empresa(Long.parseLong(id));
-		chamado.setSeq_id_tecnico(tecnico.getSeq_id_tecnico());
+			try {
+				chamado.setProblema(Problema.findByValue(Integer
+						.parseInt(problema)));
+			} catch (Exception e) {
+				chamado.setProblema(Problema.NAO_INFORMADO);
+			}
 
-		long add = new FactoryDAOImpl().getChamadoDAOImpl().add(chamado);
-		
-		if (add > 0) {
-			System.out.println("Inserido");
-		} else {
-			System.out.println("Não Inserido");
-		}
-		RequestDispatcher rd = request.getRequestDispatcher("/empresa_pesquisar.jsp");
-		rd.include(request, response);
+			try {
+				chamado.setTipo_problema(TipoProblema.findByValue(Integer
+						.parseInt(tipo_problema)));
+			} catch (Exception e) {
+				chamado.setTipo_problema(TipoProblema.NAO_INFORMADO);
+			}
+
+			chamado.setInfo_problema(descricao_problema);
+
+			// vinculando a empresa ao chamado
+			chamado.setSeq_id_empresa(Long.parseLong(id));
+			chamado.setSeq_id_tecnico(tecnico.getSeq_id_tecnico());
+
+			long add = new FactoryDAOImpl().getChamadoDAOImpl().add(chamado);
+
+			if (add > 0) {
+				System.out.println("Inserido");
+			} else {
+				System.out.println("Não Inserido");
+			}
+			RequestDispatcher rd = request
+					.getRequestDispatcher("/empresa_pesquisar.jsp");
+			rd.include(request, response);
+		 }
 	}
 }//

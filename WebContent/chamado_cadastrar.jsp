@@ -46,7 +46,7 @@
 					Cliente</label>
 				<div class="col-md-4">
 					<input id="nome_cliente" name="nome_cliente" type="text"
-						placeholder="" class="form-control input-md" readonly="true">
+						placeholder="" class="form-control input-md" >
 				</div>
 			</div>
 			
@@ -54,7 +54,7 @@
 				<label class="col-md-4 control-label" for="software">Software</label>
 				<div class="col-md-4">
 					<input id="software" name="software" type="text"
-						placeholder="" class="form-control input-md" readonly="true">
+						placeholder="" class="form-control input-md" >
 				</div>
 			</div>
 			
@@ -62,7 +62,7 @@
 				<label class="col-md-4 control-label" for="versao_software">Versão do Software</label>
 				<div class="col-md-4">
 					<input id="versao_software" name="versao_software" type="text"
-						placeholder="" class="form-control input-md" readonly="true">
+						placeholder="" class="form-control input-md" >
 				</div>
 			</div>
 			
@@ -70,7 +70,7 @@
 				<label class="col-md-4 control-label" for="data">Data</label>
 				<div class="col-md-4">
 					<input id="data" name="data" type="text"
-						placeholder="__/__/____" class="form-control input-md" readonly="true">
+						placeholder="__/__/____" class="form-control input-md" >
 				</div>
 			</div>
 			
@@ -78,7 +78,7 @@
 				<label class="col-md-4 control-label" for="duracao">Duração</label>
 				<div class="col-md-4">
 					<input id="duracao" name="duracao" type="text"
-						placeholder="" class="form-control input-md" readonly="true">
+						placeholder="" class="form-control input-md" >
 				</div>
 			</div>
 			

@@ -46,18 +46,28 @@ public class Servlet_Pesquisar_Empresa extends HttpServlet {
 			Empresa empresa = null;
 			if (nome_empresa == null || nome_empresa.isEmpty()) {
 				empresa = new FactoryDAOImpl().getEmpresaDAOImpl().get(Integer.parseInt(numero_contrato));
-
-				request.setAttribute("empresa", empresa);
-				RequestDispatcher rd = request.getRequestDispatcher("/chamado_cadastrar.jsp");
-				rd.include(request, response);
+				
+				if (empresa == null) {
+					response.sendRedirect("/SAU/empresa_pesquisar.jsp");
+				} else {
+					request.setAttribute("empresa", empresa);
+					RequestDispatcher rd = request.getRequestDispatcher("/chamado_cadastrar.jsp");
+					rd.include(request, response);
+				}
+				
 
 			} else {
 				if (numero_contrato == null || numero_contrato.isEmpty()) {
 					empresa = new FactoryDAOImpl().getEmpresaDAOImpl().get(nome_empresa);
+					
+					if (empresa == null) {
+						response.sendRedirect("/SAU/empresa_pesquisar.jsp");
+					} else {
+						request.setAttribute("empresa", empresa);
+						RequestDispatcher rd = request.getRequestDispatcher("/chamado_cadastrar.jsp");
+						rd.include(request, response);
+					}
 
-					request.setAttribute("empresa", empresa);
-					RequestDispatcher rd = request.getRequestDispatcher("/chamado_cadastrar.jsp");
-					rd.include(request, response);
 				} else {
 					response.sendRedirect("/SAU/empresa_pesquisar.jsp");
 				}

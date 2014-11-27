@@ -261,13 +261,13 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 
 	public boolean update(int status_new, long id) {
 	PreparedStatement ps = null;
-		
+	int update = 0;
 		try {
-			String sql = "update sau.en_chamado status = ? where seq_id_chamado = ?";
+			String sql = "update sau.en_chamado set status = ? where seq_id_chamado = ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setInt(1, status_new);
 			ps.setLong(2, id);
-			return ps.execute();
+			update = ps.executeUpdate();
 		} catch (Exception e) {
 			System.err.println(e);
 		} finally {
@@ -279,8 +279,12 @@ public class ChamadoDAOImpl implements GenericDAO<Chamado> {
 				System.err.println(e);
 			}
 		}
-
-		return false;
+		if (update == 1) {
+			return true;
+		} else {
+			return false;
+		}
+			
 	}
 
 }

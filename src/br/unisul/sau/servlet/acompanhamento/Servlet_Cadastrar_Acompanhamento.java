@@ -24,11 +24,6 @@ import br.unisul.sau.dao.impl.FactoryDAOImpl;
 public class Servlet_Cadastrar_Acompanhamento extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	ChamadoDAOImpl chamadoDAOImp = new ChamadoDAOImpl();
-	AcompanhamentoDAOImpl acompanhamentoDAOImp = new AcompanhamentoDAOImpl();
-
-	ChamadoAcompanhamentoDAOImpl chamadoAcompanhamentoDAOImp = new ChamadoAcompanhamentoDAOImpl();
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -52,15 +47,14 @@ public class Servlet_Cadastrar_Acompanhamento extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		int status_ant = Integer.parseInt(request.getParameter("status_anterior"));
-		int status_new =  Integer.parseInt(request.getParameter("status"));
-		long id = Long.parseLong(request.getParameter("id_chamado"));
+		int status_ant = Integer.parseInt(request.getParameter("status_ant"));
+		int status_new =  Integer.parseInt(request.getParameter("status_new"));
+		long id_chamado = Long.parseLong(request.getParameter("id_chamado"));
 		
 		if  (status_ant != status_new) {
-			new FactoryDAOImpl().getChamadoDAOImpl().update(status_new, id);
+			new FactoryDAOImpl().getChamadoDAOImpl().update(status_new, id_chamado);
 		}
 		
-		long id_chamado = Long.parseLong(request.getParameter("id_chamado"));
 		String acompanhamento_problema = request.getParameter("acompanhamento_problema");
 
 		Acompanhamento acompanhamento = new Acompanhamento();

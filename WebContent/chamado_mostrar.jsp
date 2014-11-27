@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@ page import="java.util.List, br.unisul.sau.bean.*"%>
+<%@ page import="java.util.List, br.unisul.sau.bean.*, br.unisul.sau.bean.tenum.*"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -35,16 +35,18 @@
 						class="form-control input-md" readonly="true">
 				</div>
 			</div>
-
+			<input type="hidden" value="<%= chamado.getStatus().getKey() %>" name="status_ant">
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="status">Status do
 					Chamado</label>
 				<div class="col-md-4">
-					<select id="status" name="status" class="form-control"
-						disabled="true">
-						<option value="<%=chamado.getStatus().getKey()%>">
-							<%=chamado.getStatus().getLabel()%>
-						</option>
+					<select id="status" name="status_new" class="form-control">
+						<% for (Status status : Status.values()) { %>
+							<option value="<%=status.getKey()%>" 
+							<%= chamado.getStatus().getKey() == status.getKey() ? "selected='selected'": "" %>>
+							<%=status.getLabel()%>
+							</option>
+						<% } %>
 					</select>
 				</div>
 			</div>
