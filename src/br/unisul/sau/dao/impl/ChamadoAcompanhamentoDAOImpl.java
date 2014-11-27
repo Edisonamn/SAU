@@ -20,7 +20,7 @@ public class ChamadoAcompanhamentoDAOImpl implements RelacioamentoDAO<ChamadoAco
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select seq_id_chamado, seq_id_acompanhamento from sau.re_acompanhamento_chamado where seq_id_chamado = ?";
+			String sql = "select seq_id_chamado, seq_id_acompanhamento from sau.re_chamado_acompanhamento where seq_id_chamado = ?";
 			ps = Conexao.getInstance().prepareStatement(sql);
 			ps.setLong(1, id);
 			rs = ps.executeQuery();

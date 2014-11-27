@@ -19,6 +19,7 @@ import br.unisul.sau.dao.impl.AcompanhamentoDAOImpl;
 import br.unisul.sau.dao.impl.ChamadoAcompanhamentoDAOImpl;
 import br.unisul.sau.dao.impl.ChamadoDAOImpl;
 import br.unisul.sau.dao.impl.EmpresaDAOImpl;
+import br.unisul.sau.dao.impl.FactoryDAOImpl;
 
 /**
  * Servlet implementation class Servlet_Mostrar_Chamado_Concluido_Por_Tipo
@@ -48,35 +49,41 @@ public class Servlet_Mostrar_Chamado_Concluido_Por_Tipo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		long radio_consulta_chamado = Long.parseLong(request
-				.getParameter("radio_consulta_chamado"));
-
+		long radio_consulta_chamado = -1;
+		
+		try {
+			radio_consulta_chamado = Long.parseLong(request.getParameter("radio_consulta_chamado"));
+		} catch(Exception e) {
+		}
+		
 		Chamado chamado = new Chamado();
 		Empresa empresa = new Empresa();
-
-		List<ChamadoAcompanhamento> lista_chamadoAcompanhamento = new ArrayList<ChamadoAcompanhamento>();
-
-		try {
-			chamado = chamadoDAOImp.get(radio_consulta_chamado);
-			empresa = empresaDAOImp.get(chamado.getSeq_id_empresa());
-
-			lista_chamadoAcompanhamento = chamadoAcompanhamentoDAOImpl
-					.getAll(radio_consulta_chamado);
-		} catch (Exception e) {
-			e.printStackTrace();
+		List<ChamadoAcompanhamento> all = new ArrayList<ChamadoAcompanhamento>();
+		List<Acompanhamento> listAcompanhamento = new ArrayList<Acompanhamento>();
+		if (radio_consulta_chamado != -1) {
+			chamado = new FactoryDAOImpl().getChamadoDAOImpl().get(radio_consulta_chamado);
+			empresa = new FactoryDAOImpl().getEmpresaDAOImpl().get(chamado.getSeq_id_empresa());
+			all = new FactoryDAOImpl().getChamadoAcompanhamentoDAOImpl().getAll(radio_consulta_chamado);
+			if (all != null) {
+				for (ChamadoAcompanhamento id : all) {
+					listAcompanhamento.add(new FactoryDAOImpl().getAcompanhamentoDAOImpl().get(id.getSeq_id_acompanhamento()));
+				}
+			}
+			request.setAttribute("chamado", chamado);
+			request.setAttribute("empresa", empresa);
+			request.setAttribute("lista_chamadoAcompanhamento", listAcompanhamento);
+			// request.setAttribute("acompanhamento", acompanhamento);
+			RequestDispatcher rd = request
+					.getRequestDispatcher("/relatorio_chamado_concluido_selecionado.jsp");
+			rd.include(request, response);
+		} else {
+			response.sendRedirect("/SAU/index.jsp");
 		}
 
 		// Acompanhamento acompanhamento = new Acompanhamento();
 		// acompanhamento = acompanhamentoDAOImpl.get(id);
 
-		request.setAttribute("chamado", chamado);
-		request.setAttribute("empresa", empresa);
-		request.setAttribute("lista_chamadoAcompanhamento",
-				lista_chamadoAcompanhamento);
-		// request.setAttribute("acompanhamento", acompanhamento);
-		RequestDispatcher rd = request
-				.getRequestDispatcher("/relatorio_chamado_concluido_selecionado.jsp");
-		rd.include(request, response);
+		
 	}
 
 	/**
